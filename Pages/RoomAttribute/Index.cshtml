@@ -1,0 +1,110 @@
+﻿@page
+@model RoomRentalManagementSolution.Pages.RoomAttribute.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 style="color:red" class="text-center">Thuộc tính phòng</h1>
+
+
+<form method="post">
+<div class="card mt-3">
+    <div class="card-header" style="background-color:#e7f1ff">
+            <p style="color:#0c63e4;" class="fw-bold mt-2">Danh sách các diện tích phòng</p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-3">
+                    <button class="btn btn-primary" style="border-radius:15px"><a asp-page="Create" class="text-decoration-none" style="color:white">Tạo mới +</a></button>
+                    <input id="deleteButton" class="btn btn-danger" style="border-radius:15px" type="submit" value="Xóa -" />
+            </div>
+        </div>
+          @if (TempData["ErrorMessage2"] != null)
+            {
+                <div class="alert alert-danger mt-2">
+                    @TempData["ErrorMessage2"]
+                </div>
+            }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Diện tích phòng
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model.Area) {
+                <tr>
+                    <td> 
+                        <div class="form-check" style="width:20px">
+                                    <input class="form-check-input" name="selectedAreasId" value="@item.Id" type="checkbox" id="flexCheckDefault">
+                        </div>
+                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area1)
+                    </td>
+                    <td class="text-end">
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Cập nhật</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+        </div>
+</div>
+
+<div class="card mt-3">
+
+    <div class="card-header" style="background-color:#e7f1ff">
+            <p style="color:#0c63e4;" class="fw-bold mt-2">Danh sách các giá phòng</p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-3">
+                <button class="btn btn-primary" style="border-radius:15px"><a asp-page="PriceCreate" class="text-decoration-none" style="color:white">Tạo mới +</a></button>
+                <input id="deleteButton" class="btn btn-danger" style="border-radius:15px" type="submit" value="Xóa -" />
+            </div>
+        </div>
+          @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger mt-2">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Giá phòng
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RoomPrice)
+                {
+                    <tr>
+                        <td> 
+                            <div class="form-check">
+                                    <input class="form-check-input" name="selectedPricesId" value="@item.Id" type="checkbox" id="flexCheckDefault">
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td  class="text-end">
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Cập nhật</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+ </div>
+</div>
+</form>

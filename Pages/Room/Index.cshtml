@@ -1,0 +1,310 @@
+﻿@page
+@model RoomRentalManagementSolution.Pages.Room.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    int EmptyNum = 0;
+    int NotFullNum = 0;
+    int FullNum = 0;
+    int PriceNum = 0;
+}
+<div class="text-center">
+    <h1 style="color:red">Danh sách phòng trọ</h1>
+</div>
+
+<form method="get">
+<div class="accordion" id="accordionFind">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Tìm kiếm
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFind">
+            <div class="accordion-body">
+                      
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Mã phòng</label>
+                            <input name="RoomId" class="form-control" value="@ViewBag.RoomIdraw" />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Tên phòng</label>
+                            <input name="RoomName" class="form-control" value="@ViewBag.RoomNameraw" />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Tầng</label>
+                            <select name="FloorId" class="form-control">
+                                @foreach (var item in @ViewBag.FloorId)
+                                {
+                                    if(@item.Value == ViewBag.FloorIdraw)
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }else{
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                    
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Số người ở tối đa</label>
+                            <select name="NumOfPersonId" class="form-control">
+                                @foreach (var item in @ViewBag.NumOfPersonId)
+                                {
+                                    if (@item.Value == ViewBag.NumOfPersonIdraw)
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Diện tích</label>
+                            <select name="AreaId" class="form-control">
+                                @foreach (var item in @ViewBag.AreaId)
+                                {
+                                    if (@item.Value == ViewBag.AreaIdraw)
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label class="control-label">Giá</label>
+                            <select name="PriceId" class="form-control">
+                                @foreach (var item in @ViewBag.PriceId)
+                                {
+                                    if (@item.Value == ViewBag.PriceIdraw)
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary mt-3" style="border-radius:15px"><a asp-page="/RoomAttribute/Index" class="text-decoration-none" style="color:white">Cập nhật thuộc tính phòng</a></button>
+                        <input type="submit" style="border-radius:15px" class="btn btn-primary mt-3" value="Tìm kiếm" />
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+         <div class="row">
+            <div class="form-group col-lg-3 ms-1">
+                <label class="control-label">Tên phòng</label>
+                <select name="RoomNameOrder" class="form-control">
+                        @if (@ViewBag.RoomNameOrderraw != null && @ViewBag.RoomNameOrderraw == "1")
+                        {
+                            <option value="1" selected>Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                        else if (@ViewBag.RoomNameOrderraw != null && @ViewBag.RoomNameOrderraw == "2")
+                        {
+                            <option value="1">Tăng dần</option>
+                            <option value="2" selected>Giảm dần</option>
+                        }else{
+                            <option value="1">Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                </select>
+            </div>
+            <div class="form-group col-lg-3 ms-1">
+                <label class="control-label">Giá phòng</label>
+                <select name="PriceOrder" class="form-control">
+                    <option value="">-- Sắp xếp --</option>
+                        @if(@ViewBag.PriceOrderraw != null && @ViewBag.PriceOrderraw == "1" ){
+                            <option value="1" selected>Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                        else if (@ViewBag.PriceOrderraw != null && @ViewBag.PriceOrderraw == "2")
+                        {
+                            <option value="1">Tăng dần</option>
+                            <option value="2" selected>Giảm dần</option>
+                        }else{
+                            <option value="1">Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                </select>
+            </div>
+            <div class="form-group col-lg-3 ms-1">
+                <label class="control-label">Tầng</label>
+                <select name="FloorOrder" class="form-control">
+                    <option value="">-- Sắp xếp --</option>
+                        @if (@ViewBag.FloorOrderraw != null && @ViewBag.FloorOrderraw == "1")
+                        {
+                            <option value="1" selected>Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                        else if (@ViewBag.FloorOrderraw != null && @ViewBag.FloorOrderraw == "2")
+                        {
+                            <option value="1">Tăng dần</option>
+                            <option value="2" selected>Giảm dần</option>
+                        }
+                        else
+                        {
+                            <option value="1">Tăng dần</option>
+                            <option value="2">Giảm dần</option>
+                        }
+                </select>
+            </div>
+           <div class="text-end col-lg-1 ms-3 mt-1">
+            <input type="submit" style="border-radius:15px" class="btn btn-primary mt-3" value="Sắp xếp" />
+           </div>
+        </div>
+    </div>
+</div>
+ </form>
+
+<div class="card mt-3">
+<form method="post">
+    <div class="card-header" style="background-color:#e7f1ff">
+            <p style="color:#0c63e4;" class="fw-bold mt-2">Danh sách phòng</p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-3">
+                <button class="btn btn-primary" style="border-radius:15px"><a asp-page="Create" class="text-decoration-none" style="color:white">Tạo mới +</a></button>
+                <input id="deleteButton" class="btn btn-danger" style="border-radius:15px" type="submit" value="Xóa -" />
+            </div>
+        </div>
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger mt-2">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="text-center">
+                    Mã phòng
+                </th>
+                 <th class="text-center">
+                    Tên phòng
+                </th>
+                 <th class="text-center">
+                    Tầng
+                </th>
+               <th class ="text-center">
+                    Diện tích
+                </th>
+                <th class="text-center">
+                    Giá
+                </th>
+                <th class="text-center">
+                    Số người đang ở
+                </th>
+                <th class="text-center">
+                    Trạng thái
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Room)
+            {
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" name="selectedRooms" value="@item.RoomId" type="checkbox" id="flexCheckDefault">
+                        </div>
+                    </td>
+                    <td class="text-end">
+                        @item.RoomId
+                    </td>
+                    <td class="text-end">
+                        @item.RoomName
+                    </td>
+                    <td class="text-end">
+                        @item.Floor.Floor1
+                    </td>
+                    <td class="text-end">
+                        @item.Area.Area1
+                    </td>
+                    <td class="text-end">
+                        @string.Format("{0:N0}", Math.Truncate(item.Price.Price))
+                    </td>
+                    <td class="text-end">
+                        @item.NumOfLiving/@item.NumOfPerson.NumOfPerson1
+                    </td>
+                            @{
+                                if (@item.NumOfLiving == 0 && @item.NumOfLiving < @item.NumOfPerson.NumOfPerson1)
+                                {
+                                    <td class="text-primary">Trống</td>
+                                    EmptyNum += 1;
+                                }
+                                else if (@item.NumOfLiving != 0 && @item.NumOfLiving < @item.NumOfPerson.NumOfPerson1)
+                                {
+                                    <td class="text-success">Chưa đủ</td>
+                                    NotFullNum += 1;
+                                    PriceNum += (int)item.Price.Price;
+                                }
+                                else
+                                {
+                                    <td class="text-danger">Đã đủ</td>
+                                    FullNum += 1;
+                                    PriceNum += (int)item.Price.Price;
+                                }
+                                }
+                    <td class="text-center">
+                        <a asp-page="./Edit" asp-route-id="@item.RoomId">Cập nhật</a> 
+                    </td>
+                            <td class="text-center">
+                         <a asp-page="./Details" asp-route-id="@item.RoomId">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+    <div class="card-footer row">
+        <div class="col-lg-3 text-primary">
+            Trống:  @EmptyNum
+        </div>
+            <div class="col-lg-3 text-success">
+            Chưa đủ: @NotFullNum
+        </div>
+        <div class="col-lg-3 text-danger">
+            Đã đủ: @FullNum
+        </div>
+        <div class="col-lg-3 text-black">
+                Tổng giá thuê: @string.Format("{0:N0}", Math.Truncate((decimal)PriceNum))
+        </div>
+    </div>
+</form>
+</div>
+
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function (event) {
+        var result = confirm('Bạn có chắc chắn muốn xóa dữ liệu?');
+        if (!result) {
+            event.preventDefault();
+        }
+    });
+</script>

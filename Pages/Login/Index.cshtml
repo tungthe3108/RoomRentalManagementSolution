@@ -1,0 +1,30 @@
+﻿@page
+@model RoomRentalManagementSolution.Pages.Login.IndexModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center align-items-center" style="margin-top:13%">
+    <div class=" col-lg-4 border border-dark rounded-3 p-lg-4 p-md-4 bg-white">
+        <h3 class="text-center" style="color:red">Đăng nhập</h3>
+            <form method="post">
+                <label class="mt-1">Tên đăng nhập</label>
+                <input type="text" required name="username" class="form-control mt-1" />
+                <label class="mt-1">Mật khẩu</label>
+                <input type="password" required name="password" class="form-control mt-1" />
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="text-danger mt-1">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success mt-2">Đăng nhập</button>
+                </div>
+            </form>
+        <div class="form-group mt-1">
+        </div>
+    </div>
+</div>
